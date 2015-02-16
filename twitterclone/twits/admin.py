@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import *
+
+class TwitAdmin(admin.ModelAdmin):
+    class Meta:
+        model = Twit
+
+admin.site.register(Twit, TwitAdmin)
