@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import sys
+PROJECT_ROOT = os.path.dirname(__file__)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -82,7 +84,7 @@ USE_TZ = False
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "static", "static-only")
+STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "static", "static-only").replace('\\', '/')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
