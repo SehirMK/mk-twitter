@@ -16,18 +16,19 @@ break;
 return cookieValue;
 }
 var csrftoken = getCookie('csrftoken');	
-$("#go").click(function () {
+$("#go").click(function (e) {
 var tweet = $('#tweet').val();
 var rt = $('#rt').val();
 var fav = $('#fav').val();
 $.ajax({
 type:'POST',
-url:'http://127.0.0.1:8000/gonder/',
+url:$("#twitgonder").attr('action'),
 data:{tweet: tweet, rt: rt, fav: fav},
 success:function(cevap){
-$("#sonuc").html(cevap);
-},
+$("#twitsofuser").load("# #twitsofuser"); 
+}
 });
+e.preventDefault();
 });
 
 

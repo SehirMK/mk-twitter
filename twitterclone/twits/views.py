@@ -22,7 +22,7 @@ def gonder(request):
 		twittertext = request.POST.get('tweet')
 		retweetcount = request.POST.get('rt')
 		favcount = request.POST.get('fav')
-		register_tweet = tweet(tweet_text=twittertext, rt_counts = retweetcount, fav_counts = favcount)
+		register_tweet = Twit(user=request.user, content=twittertext, rt_count = retweetcount, fav_count = favcount)
 		register_tweet.save()
 		return HttpResponse (u'Tweet başarıyla gönderildi: %s '% twittertext)
 	else:

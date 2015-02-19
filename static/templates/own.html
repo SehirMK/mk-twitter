@@ -16,12 +16,14 @@
 	<body>
 		<div>
 			<h1>Tweetler</h1>
+      <form method='POST' action='/gonder/' enctype='multipart/form-data' id="twitgonder">
 				{% csrf_token %}
 				<input id="tweet" style="width: 350px;" name="tweet" type="text" />
 				<input id="rt" style="width: 50px;" name="rt" type="text" />
 				<input id="fav" style="width: 50px;" name="fav" type="text" />
 				<input id="go" class="btn btn-warning"   type="submit" value="Gönder" />
-			<div id="sonuc">Sonuç</div>
+      </form>
+			
 		</div>
 		<div id="twitsofuser">
 			<p>

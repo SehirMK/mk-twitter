@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'twitterclone.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^posttwit/', 'twits.views.posttwit'),
+    url(r'^gonder/', 'twits.views.gonder'),
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^(?P<user>.*)/$', 'twits.views.profile', name = "profile"),
 	
