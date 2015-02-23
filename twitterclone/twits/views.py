@@ -8,26 +8,18 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
 
 
-
-
-# Create your views here.
 def profile(request, user):
 	owner_user = get_object_or_404(User, username = user)
 	tweets = Twit.objects.filter(user = owner_user).order_by('-timestamp')
 	return render(request, 'own.html', {'tweets':tweets,})
 
-@csrf_exempt
-def gonder(request):
-	if request.method == 'POST':
-		twittertext = request.POST.get('tweet')
-		retweetcount = request.POST.get('rt')
-		favcount = request.POST.get('fav')
-		register_tweet = Twit(user=request.user, content=twittertext, rt_count = retweetcount, fav_count = favcount)
-		register_tweet.save()
-		return HttpResponse (u'Tweet başarıyla gönderildi: %s '% twittertext)
+def search(request, q):
+	twits = Twit.objects.filter(content__istartswith=q)
+	if len(twits) is 0:
+		return HttpResponse (u'404')
 	else:
-		return HttpResponse(u'404')
-
+		return render(request, 'search.html', {'twits':twits,})
+		
 def posttwit(request):
 	twit_form = AddTwitForm(request.POST or None)
 
