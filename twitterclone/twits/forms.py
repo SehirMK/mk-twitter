@@ -7,4 +7,4 @@ from django.forms import ModelForm
 class AddTwitForm(ModelForm):
 	class Meta:
 		model = Twit
-        fields = ('content')
+        fields = ('content',)

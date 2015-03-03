@@ -7,3 +7,9 @@ class TwitAdmin(admin.ModelAdmin):
         model = Twit
 
 admin.site.register(Twit, TwitAdmin)
+
+class Follower_FollowingAdmin(admin.ModelAdmin):
+    class Meta:
+        model = Follower_Following
+
+admin.site.register(Follower_Following, Follower_FollowingAdmin)

@@ -15,8 +15,5 @@ class Twit(models.Model):
 
 class Follower_Following(models.Model):
 	user = models.ForeignKey(User, null=True, blank=True)
-	followers = models.ManyToManyField(User, related_name='followers')
-	following = models.ManyToManyField(User, related_name='following')
-
-	def __unicode__(self):
-		return self.user
+	followers = models.ManyToManyField(User, null=True, blank=True, related_name='followers')
+	following = models.ManyToManyField(User, null=True, blank=True, related_name='following')

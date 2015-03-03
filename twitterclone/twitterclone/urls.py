@@ -10,11 +10,13 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'twitterclone.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+    url(r'^follow/(?P<f_id>.*)/(?P<f_id2>.*)/$', 'twits.views.follow', name = "follow"),
     url(r'^search/(?P<q>.*)/$', 'twits.views.search', name = "search"),
     url(r'^posttwit/', 'twits.views.posttwit'),
 	url(r'^admin/', include(admin.site.urls)),
 	(r'^accounts/', include('registration.backends.default.urls')),
 	url(r'^(?P<user>.*)/$', 'twits.views.profile', name = "profile"),
+
 
 )
 

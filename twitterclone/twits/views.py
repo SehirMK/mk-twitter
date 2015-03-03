@@ -10,8 +10,9 @@ from django.core.context_processors import csrf
 
 def profile(request, user):
 	owner_user = get_object_or_404(User, username = user)
+	follow = Follower_Following.objects.filter(user=owner_user)
 	tweets = Twit.objects.filter(user = owner_user).order_by('-timestamp')
-	return render(request, 'own.html', {'tweets':tweets,})
+	return render(request, 'own.html', {'tweets':tweets,'owner_user':owner_user,'follow':follow,})
 
 def search(request, q):
 	twits = Twit.objects.filter(content__istartswith=q)
@@ -33,5 +34,14 @@ def posttwit(request):
 		return HttpResponse (u'added')
 
 
+def follow(request, f_id, f_id2):
+	a_user = User.objects.get(id=f_id)
+	b_user = User.objects.get(id=f_id2)
+	a, c = Follower_Following.objects.get_or_create(user=a_user)
+	b, c = Follower_Following.objects.get_or_create(user=b_user)
+	a.following.add(b_user)
+	b.followers.add(a_user)
+
+	return HttpResponse (u'oldu')
 
 

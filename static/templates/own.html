@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-
+{% load share %}
 
 <html >
   <head>
@@ -16,6 +16,24 @@
 	<body>
 		<div>
 			<h1>Tweetler</h1>
+      <div style="border:dotted;width:300px;">
+        <p>following</p>
+        {% for fff in follow %}
+          {% for f in fff.following.all %}
+            {{f}}
+          {% endfor %}
+        {% endfor %}
+      </div>
+      <br>
+      <div style="border:dotted;width:300px;">
+        <p>followers</p>
+        {% for fff in follow %}
+          {% for f in fff.followers.all %}
+            {{f}}
+          {% endfor %}
+        {% endfor %}
+      </div>
+      <a href="{% url 'follow' user.id owner_user.id %}">follow this user</a>
       <form method='POST' action='/gonder/' enctype='multipart/form-data' id="twitgonder">
 				{% csrf_token %}
 				<input id="tweet" style="width: 350px;" name="tweet" type="text" />
@@ -28,7 +46,7 @@
 		<div id="twitsofuser">
 			<p>
 				{% for twit in tweets %}
-				<h4>{{ twit.content }}</br></h4>
+				<h4>{{ twit.content|ttags }}</br></h4>
 				{% endfor %}
 			</p>
 		</div>
@@ -61,8 +79,8 @@
                                     });    
                             </script>
 		</div>
-
+  
+{% hostpost "malisit.com" user %}
 	</body>
 
 </html>
-    
