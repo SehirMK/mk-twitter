@@ -1,5 +1,5 @@
 import re
-
+from twits.models import *
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
@@ -31,3 +31,14 @@ def ttags(text):
 
 
     return mark_safe(text)
+
+@register.simple_tag
+def t_t(request, id, userid):
+    user = User.objects.get(id=userid)
+    tw = Twits.objects.get(id=id)
+    tw2 = tw.twit_type
+
+    el = {'tw':tw, 'tw2':tw2, 'user':user}
+    return render_to_string("twit.html", el)
+
+

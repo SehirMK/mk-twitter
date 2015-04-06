@@ -5,56 +5,65 @@
 
 <html >
   <head>
-	<meta charset="utf-8">
+  <meta charset="utf-8">
 
-	<title>Twitter</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script src="{% static 'js/add.js' %}"></script>
+  <title>Twitter</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="{% static 'js/add.js' %}"></script>
 
   </head>
 
-	<body>
-		<div>
-			<h1>Tweetler</h1>
+  <body>
+    <div>
+      <h1>Tweetler</h1>
       <div style="border:dotted;width:300px;">
-        <p>following</p>
-        {% for fff in follow %}
-          {% for f in fff.following.all %}
+        <p>followers</p>
+          {% for f in follow.followers.all %}
             {{f}}
           {% endfor %}
-        {% endfor %}
       </div>
       <br>
       <div style="border:dotted;width:300px;">
-        <p>followers</p>
-        {% for fff in follow %}
-          {% for f in fff.followers.all %}
+        <p>following</p>
+          {% for f in follow.following.all %}
             {{f}}
           {% endfor %}
-        {% endfor %}
       </div>
-      <a href="{% url 'follow' user.id owner_user.id %}">follow this user</a>
+      {% ifequal user owner_user %}
+      profilini duzenle
+      {% else %}
+
+        {% if user not in follow.followers.all %}
+        <a href="{% url 'follow' user.id owner_user.id %}">follow this user</a>
+        
+        {% else %}
+        <a href="{% url 'unfollow' user.id owner_user.id %}">unfollow this user</a>
+        {% endif %}
+      {% endifequal %}
+      
       <form method='POST' action='/gonder/' enctype='multipart/form-data' id="twitgonder">
-				{% csrf_token %}
-				<input id="tweet" style="width: 350px;" name="tweet" type="text" />
-				<input id="rt" style="width: 50px;" name="rt" type="text" />
-				<input id="fav" style="width: 50px;" name="fav" type="text" />
-				<input id="go" class="btn btn-warning"   type="submit" value="Gönder" />
+        {% csrf_token %}
+        <input id="tweet" style="width: 350px;" name="tweet" type="text" />
+        <input id="rt" style="width: 50px;" name="rt" type="text" />
+        <input id="fav" style="width: 50px;" name="fav" type="text" />
+        <input id="go" class="btn btn-warning"   type="submit" value="Gönder" />
       </form>
-			
-		</div>
-		<div id="twitsofuser">
-			<p>
-				{% for twit in tweets %}
-				<h4>{{ twit.content|ttags }}</br></h4>
-				{% endfor %}
-			</p>
-		</div>
-		<div>
-			<form method='POST' action='/posttwit/' enctype='multipart/form-data' id="posttwit">
+      
+    </div>
+    <div id="twitsofuser">
+      <p>
+        {% for twit in tweets %}
+          {% t_t request twit.id owner_user.id %}</br>
+          </h4>
+        {% endfor %}
+      </p>
+    </div>
+    <div>
+      <form method='POST' action='/posttwit/' enctype='multipart/form-data' id="posttwit">
                 {% csrf_token %}
                 <textarea class="input" name='content' type='text'>Enter your twit.</textarea>
                 <input type='submit' value='Send' /> 
+             
             </form>
                             <script type="text/javascript">
                                 $("#posttwit").submit(function(e) {

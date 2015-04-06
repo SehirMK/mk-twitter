@@ -10,9 +10,13 @@ from django.core.context_processors import csrf
 
 def profile(request, user):
 	owner_user = get_object_or_404(User, username = user)
-	follow = Follower_Following.objects.filter(user=owner_user)
-	tweets = Twit.objects.filter(user = owner_user).order_by('-timestamp')
-	return render(request, 'own.html', {'tweets':tweets,'owner_user':owner_user,'follow':follow,})
+	f = Follower_Following.objects.get_or_create(user=owner_user)
+	follow = Follower_Following.objects.get(user=owner_user)
+	tweets = Twits.objects.filter(user = owner_user).order_by('-timestamp')
+	
+
+	user = request.user
+	return render(request, 'own.html', {'tweets':tweets,'owner_user':owner_user,'follow':follow,'user':user,})
 
 def search(request, q):
 	twits = Twit.objects.filter(content__istartswith=q)
@@ -27,9 +31,14 @@ def posttwit(request):
 	if twit_form.is_valid():
 		new_twit = twit_form.save(commit=False)
 		new_twit.user = request.user
+		new_twit.mainuser = request.user
 		new_twit.rt_count = 0
 		new_twit.fav_count = 0
 		new_twit.save()
+		#twitt = Twit.objects.get(id=new_twit.id)
+		owned = OwnedTwit.objects.create(user=request.user, twit=new_twit, timestamp=new_twit.timestamp)
+		g_owned = Twits.objects.create(user=request.user, twit_type=owned, twit_type_id=owned.id)
+		g_owned.save()
 
 		return HttpResponse (u'added')
 
@@ -44,4 +53,22 @@ def follow(request, f_id, f_id2):
 
 	return HttpResponse (u'oldu')
 
+def unfollow(request, f_id, f_id2):
+	a_user = User.objects.get(id=f_id)
+	b_user = User.objects.get(id=f_id2)
+	a = Follower_Following.objects.get(user=a_user)
+	b = Follower_Following.objects.get(user=b_user)
+	a.following.remove(b_user)
+	b.followers.remove(a_user)
+
+	return HttpResponse (u'oldu')
+
+def retweet(request, t_id):
+	user = request.user
+	twit = Twit.objects.get(id=t_id)
+	rted = RTedTwit.objects.create(user=user, twit=twit, timestamp=twit.timestamp)
+	g_rted = Twits.objects.create(user=request.user, twit_type=rted, twit_type_id=rted.id)
+	g_rted.save()
+
+	return HttpResponse (u'oldu')
 

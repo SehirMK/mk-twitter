@@ -1,0 +1,13 @@
+{% load share %}
+{% ifequal tw2.twit.user user %}
+{{ tw2.twit.content|ttags }}
+{% else %}
+<br>
+<br>
+::::rted twit::<Br>
+orig_user:{{ tw2.twit.user }}<br>
+{{ tw2.twit.content|ttags }}
+{% endifequal %}
+<a href="{% url 'retweet' tw2.twit.id %}">rt </a>
+<br>
+<br>
