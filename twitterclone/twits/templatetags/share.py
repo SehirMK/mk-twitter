@@ -6,6 +6,7 @@ from django.utils.safestring import mark_safe
 from django.template.defaultfilters import urlencode
 from django.template.loader import render_to_string
 
+
 register = template.Library()
 
 TWITTER_URL = 'http://twitter.com/intent/tweet?text='
@@ -33,12 +34,13 @@ def ttags(text):
     return mark_safe(text)
 
 @register.simple_tag
-def t_t(request, id, userid):
+def t_t(request, id, userid, username):
     user = User.objects.get(id=userid)
+    user2 = User.objects.get(username=username)
     tw = Twits.objects.get(id=id)
     tw2 = tw.twit_type
 
-    el = {'tw':tw, 'tw2':tw2, 'user':user}
+    el = {'tw':tw, 'tw2':tw2, 'user':user,'user2':user2}
     return render_to_string("twit.html", el)
 
 

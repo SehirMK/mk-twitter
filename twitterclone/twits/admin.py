@@ -31,3 +31,9 @@ class Twits_Admin(admin.ModelAdmin):
         model = Twits
 
 admin.site.register(Twits, Twits_Admin)
+
+class Fav_Admin(admin.ModelAdmin):
+    class Meta:
+        model = Fav
+
+admin.site.register(Fav, Fav_Admin)

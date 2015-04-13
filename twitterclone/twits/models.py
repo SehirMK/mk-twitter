@@ -40,4 +40,8 @@ class Twits(models.Model):
 	twit_type_id = models.PositiveIntegerField()
 	twit_type = generic.GenericForeignKey('twit_type_name', 'twit_type_id')
 	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+
+class Fav(models.Model):
+	user = models.ForeignKey(User, null=True, blank=True)
+	faved_twits = models.ManyToManyField(Twit, null=True, blank=True)
 	

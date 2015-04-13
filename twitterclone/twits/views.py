@@ -7,16 +7,20 @@ from datetime import *
 from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
 
+def home(request):
+	return render(request, 'base.html', {})
+
 
 def profile(request, user):
 	owner_user = get_object_or_404(User, username = user)
+	user2 = request.user
 	f = Follower_Following.objects.get_or_create(user=owner_user)
 	follow = Follower_Following.objects.get(user=owner_user)
 	tweets = Twits.objects.filter(user = owner_user).order_by('-timestamp')
 	
 
 	user = request.user
-	return render(request, 'own.html', {'tweets':tweets,'owner_user':owner_user,'follow':follow,'user':user,})
+	return render(request, 'own.html', {'tweets':tweets,'owner_user':owner_user,'follow':follow,'user':user,'user2':user2})
 
 def search(request, q):
 	twits = Twit.objects.filter(content__istartswith=q)
@@ -72,3 +76,17 @@ def retweet(request, t_id):
 
 	return HttpResponse (u'oldu')
 
+def fav(request, twit_id):
+	user = request.user
+	twit = Twit.objects.get(id=twit_id)
+	a, c = Fav.objects.get_or_create(user=user)
+	a.faved_twits.add(twit)
+
+	return HttpResponse (u'oldu')
+
+def favedtwits(request, user):
+	owner_user = get_object_or_404(User, username = user)
+	faved, c = Fav.objects.get_or_create(user=owner_user)
+
+
+	return render(request, 'faved.html', {'faved':faved,})

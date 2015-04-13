@@ -1,13 +1,18 @@
+<div class="jumbotron" {% ifequal tw2.twit.user user %}{% else %}style="background:#cce7c8;"{% endifequal %}>
 {% load share %}
 {% ifequal tw2.twit.user user %}
 {{ tw2.twit.content|ttags }}
 {% else %}
-<br>
-<br>
-::::rted twit::<Br>
 orig_user:{{ tw2.twit.user }}<br>
 {{ tw2.twit.content|ttags }}
 {% endifequal %}
+{% ifequal tw2.twit.user user2 %}
+{% else %}
+{% ifequal user user2 %}
+{% else %}
 <a href="{% url 'retweet' tw2.twit.id %}">rt </a>
-<br>
-<br>
+{% endifequal %}
+{% endifequal %}
+<a href="{% url 'fav' tw2.twit.id %}">fav</a>
+
+</div>

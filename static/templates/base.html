@@ -1,36 +1,99 @@
-{% load i18n %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>MK Twitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/bootswatch.min.css' %}">
 
-<head>
-    <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
-    <title>{% block title %}User test{% endblock %}</title>
-</head>
 
-<body>
-    <div id="header">
-    {% block header %}| 
+  </head>
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">MK Twitter</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
 
-    {% if user.is_authenticated %}
-        {% trans "Logged in" %}: {{ user.username }}
-        (<a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a> |
-        <a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>)
-    {% else %}
-       <a href="{% url 'auth_login' %}">{% trans "Log in" %}</a>
-    {% endif %}
-    <hr />
-    {% endblock %}
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Deneme <span class="caret"></span></a>
+              <ul class="dropdown-menu" aria-labelledby="download">
+                <li><a href="./bootstrap.min.css">bootstrap.min.css</a></li>
+                <li><a href="./bootstrap.css">bootstrap.css</a></li>
+                <li class="divider"></li>
+                <li><a href="./variables.less">variables.less</a></li>
+                <li><a href="./bootswatch.less">bootswatch.less</a></li>
+                <li class="divider"></li>
+                <li><a href="./_variables.scss">_variables.scss</a></li>
+                <li><a href="./_bootswatch.scss">_bootswatch.scss</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://builtwithbootstrap.com/" target="_blank">Sehir</a></li>
+            <li><a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">MK</a></li>
+          </ul>
+
+        </div>
+      </div>
     </div>
 
-    <div id="content">
-    {% block content %}{% endblock %}
+
+    <div class="container">
+
+      <div class="page-header" id="banner">
+        {% block content %}
+        <div class="row">
+
+          <div class="col-lg-8 col-md-7 col-sm-6">
+            <div class="row">
+                <a href="/accounts/login">
+                    <div class="col-lg-6">
+                        <div class="btn btn-warning">giris</div>
+                    </div>
+                </a>
+                <a href="/accounts/register" name="ahmet">
+                    <div class="col-lg-6">
+                        <div class="btn btn-success">kayit ol</div>
+                    </div>
+                </a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-5 col-sm-6">
+
+          </div>
+
+        </div>
+        {% endblock %}
+      </div>
+
+
+      <footer>
+        <div class="row">
+
+        </div>
+
+      </footer>
+
+
     </div>
 
-    <div id="footer">
-    {% block footer %}
-        <hr />
-    {% endblock %}
-    </div>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src=="{% static 'js/bootswatch.js' %}"></script>
+
 </body>
-
 </html>

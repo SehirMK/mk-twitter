@@ -1,35 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
 {% load static %}
-
-<!DOCTYPE html>
 {% load share %}
-
-<html >
-  <head>
-  <meta charset="utf-8">
-
-  <title>Twitter</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="{% static 'js/add.js' %}"></script>
 
-  </head>
-
-  <body>
-    <div>
-      <h1>Tweetler</h1>
-      <div style="border:dotted;width:300px;">
-        <p>followers</p>
-          {% for f in follow.followers.all %}
+    <div class="row">
+      <div class="col-lg-8">
+        <ul class="nav nav-tabs">
+  <li class="active"><a href="#following" data-toggle="tab" aria-expanded="true">Following</a></li>
+  <li class=""><a href="#followers" data-toggle="tab" aria-expanded="false">Followers</a></li>
+  <li class=""><a href="{% url 'favedtwits' owner_user %}"  aria-expanded="false">Followers</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+  <div class="tab-pane fade active in" id="following">
+     {% for f in follow.following.all %}
             {{f}}
           {% endfor %}
-      </div>
-      <br>
-      <div style="border:dotted;width:300px;">
-        <p>following</p>
-          {% for f in follow.following.all %}
+  </div>
+  <div class="tab-pane fade" id="followers">
+    {% for f in follow.followers.all %}
             {{f}}
           {% endfor %}
-      </div>
+  </div>
+</div>
+      
       {% ifequal user owner_user %}
+      <br>
       profilini duzenle
       {% else %}
 
@@ -41,30 +38,26 @@
         {% endif %}
       {% endifequal %}
       
-      <form method='POST' action='/gonder/' enctype='multipart/form-data' id="twitgonder">
-        {% csrf_token %}
-        <input id="tweet" style="width: 350px;" name="tweet" type="text" />
-        <input id="rt" style="width: 50px;" name="rt" type="text" />
-        <input id="fav" style="width: 50px;" name="fav" type="text" />
-        <input id="go" class="btn btn-warning"   type="submit" value="Gönder" />
-      </form>
       
-    </div>
     <div id="twitsofuser">
       <p>
         {% for twit in tweets %}
-          {% t_t request twit.id owner_user.id %}</br>
+          {% t_t request twit.id owner_user.id user2 %}</br>
           </h4>
         {% endfor %}
       </p>
     </div>
     <div>
+<div class="form-group has-warning">
       <form method='POST' action='/posttwit/' enctype='multipart/form-data' id="posttwit">
                 {% csrf_token %}
-                <textarea class="input" name='content' type='text'>Enter your twit.</textarea>
-                <input type='submit' value='Send' /> 
+                <textarea class="form-control input" name='content' type='text'>Enter your twit.</textarea>
+                <div style="padding-top:3px;">
+                <input class="btn btn-warning" type='submit' value='Send' /> 
+              </div>
              
             </form>
+          </div>
                             <script type="text/javascript">
                                 $("#posttwit").submit(function(e) {
                                   var url = $(this).attr('action');
@@ -87,9 +80,7 @@
                                         e.preventDefault(); 
                                     });    
                             </script>
-		</div>
+    </div>
+    </div>
   
-{% hostpost "malisit.com" user %}
-	</body>
-
-</html>
+{% endblock %}
